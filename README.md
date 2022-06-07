@@ -1,5 +1,5 @@
 # testgex1-ci
-Test pipeline deployment using GITHUB CI with node javascript
+Test pipeline deployment using GITHUB CI with node javascript and mocha
 
 ********************
 Simple testing with passed and failed scenarios 
