@@ -33,8 +33,10 @@ jobs:
     - run: |
           npx testmo automation:run:submit \
             --instance $TESTMO_URL \
+            --project-id 1 \
             --name "Mocha test run" \
             --source "unit-tests" \
+            --resources resources.json \
             --results results/*.xml \
             -- npm run mocha-junit # Note space after --
           TESTMO_ENV:
