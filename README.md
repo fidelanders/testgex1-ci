@@ -11,11 +11,6 @@ Simple testing with passed and failed scenarios
 2. select run python code on the command line 
 (NB: This process is for vscode editor, you can use other text editor too)
 
-# dev/docker-compose.yml
-version: '3'
-services:
-  node:
-    image: node:16
-    volumes:
-      - ./../:/project
-    working_dir: /project
+### Expected Test Result
+7 passed
+1 failed
