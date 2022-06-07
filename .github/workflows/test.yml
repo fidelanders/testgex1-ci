@@ -3,22 +3,26 @@
 
 name: Test CI
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+on: [push, workflow_dispatch]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "Building .."
+
+  test-setup:
+    needs: build
+    runs-on: ubuntu-latest
+    outputs:
+      testmo-run-id: ${{ steps.run-tests.outputs.testmo-run-id }}
 
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [12.x, 14.x, 16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-        
+
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
@@ -26,22 +30,19 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+
     - run: npm ci
-    - run: npm run build --if-present
-    - run: npx mocha      
-    - run: npm install --no-save @testmo/testmo-cli
+    # - run: npx mocha
     - run: |
-          npx testmo automation:run:submit \
+          npx testmo automation:run:create \
             --instance $TESTMO_URL \
             --project-id 1 \
-            --name "Mocha test run" \
-            --source "unit-tests" \
+            --name "Parallel mocha test run" \
             --resources resources.json \
-            --results results/*.xml \
-            -- npm run mocha-junit # Note space after --
-          env:
-          TESTMO_URL: ${{secrets.TESTMO_URL }}
-          TESTMO_TOKEN: ${{secrets.TESTMO_TOKEN }}
-          id: run-tests
-    
-    
+            --source "unit-tests" > testmo-run-id.txt
+          ID=$(cat testmo-run-id.txt)
+          echo "::set-output name=testmo-run-id::$ID"
+    env:
+          TESTMO_URL: ${{ secrets.TESTMO_URL }}
+          TESTMO_TOKEN: ${{ secrets.TESTMO_TOKEN }}
+        id: run-tests
