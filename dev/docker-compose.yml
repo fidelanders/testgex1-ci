@@ -1,0 +1,8 @@
+# dev/docker-compose.yml
+version: '3'
+services:
+  node:
+    image: node:16
+    volumes:
+      - ./../:/testgex1
+    working_dir: /testgex1
