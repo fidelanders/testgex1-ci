@@ -19,12 +19,6 @@ jobs:
         node-version: [16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
         
-        jobs: # [..]
-        test-setup: # [..]
-        needs: build
-        outputs:
-        testmo-run-id: ${{ steps.run-tests.outputs.testmo-run-id }}
-
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
