@@ -27,9 +27,18 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: npm run build --if-present
-    - run: npx mocha      
+#     - run: npm run build --if-present
+#     - run: npx mocha      
     - run: npm install --no-save @testmo/testmo-cli
+    
+    # Optionally add a couple of fields such as the git hash and link to the build
+    - run: |
+        npx testmo automation:resources:add-field --name git --type string \
+            --value ${GITHUB_SHA:0:7} --resources resources.json
+          RUN_URL="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          npx testmo automation:resources:add-link --name build \
+            --url $RUN_URL --resources resources.json
+            
     - run: |
           npx testmo automation:run:submit \
             --instance $TESTMO_URL \
