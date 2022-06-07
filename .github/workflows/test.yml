@@ -33,7 +33,6 @@ jobs:
     - run: |
           npx testmo automation:run:submit \
             --instance $TESTMO_URL \
-            --project-id <id> \
             --name "Mocha test run" \
             --source "unit-tests" \
             --results results/*.xml \
