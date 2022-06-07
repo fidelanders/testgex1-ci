@@ -1,3 +1,4 @@
+const { expect } = require('chai');
 const chai = require('chai');
 const assert = chai.assert;
 
@@ -43,3 +44,10 @@ describe('files', function () {
         });
     });
 });
+
+test('1 + 1 = 2', ()=>{
+    expect(1 + 1).toBe(2);
+})
+test('1 + 1 = 2', ()=>{
+    expect(1 + 1).toBe(2);
+})
